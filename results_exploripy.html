@@ -1,0 +1,2542 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+      <meta http-equiv="X-UA-Compatible" content="ie=edge">
+      <meta http-equiv="Content-Language" content="en" />
+      <meta name="msapplication-TileColor" content="#2d89ef">
+      <meta name="theme-color" content="#4188c9">
+      <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+      <meta name="apple-mobile-web-app-capable" content="yes">
+      <meta name="mobile-web-app-capable" content="yes">
+      <meta name="HandheldFriendly" content="True">
+      <meta name="MobileOptimized" content="320">
+      <link rel="icon" href="./favicon.ico" type="image/x-icon"/>
+      <!-- <link rel="shortcut icon" type="image/x-icon" href="./favicon.ico" /> -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,400i,500,500i,600,600i,700,700i&amp;subset=latin-ext">
+      <!-- Plotly.js -->
+	  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+	  <script src="./assets/js/require.min.js"></script>
+      <script>
+         requirejs.config({
+             baseUrl: '.'
+         });
+      </script>
+      <!-- Dashboard Core -->
+      <link href="./assets/css/dashboard.css" rel="stylesheet" />
+      <script src="./assets/js/dashboard.js"></script>
+      <!-- c3.js Charts Plugin -->
+      <link href="./assets/plugins/charts-c3/plugin.css" rel="stylesheet" />
+      <script src="./assets/plugins/charts-c3/plugin.js"></script>
+      <title>Exploratory Data Analysis</title>
+      
+	  <!-- Percentage of records for each category in the target -->
+	  <script>
+         require(['c3', 'jquery'], function(c3, $) {
+         	$(document).ready(function(){
+         		var chart = c3.generate({
+         			bindto: '#TargetPercentage', // id of chart wrapper
+         			data: {
+         				columns: [
+         				    // each columns data
+         
+         ['0' , 809],
+         
+         ['1' , 500],
+         
+         				],
+         				type: 'pie', // default type of chart
+         				colors: {
+         
+         '0': '#a892b0',
+         
+         '1': '#55788e',
+         
+         					
+         				},
+         				names: {
+         				    // name of each series
+         
+         '0': '0',
+         
+         '1': '1',
+         
+         				}
+         			},
+         			axis: {
+         			},
+         			legend: {
+                         show: true, //hide legend
+         			},
+         			padding: {
+         				bottom: 0,
+         				top: 0
+         			},
+         		});
+         	});
+         });
+      </script>
+	  
+	  <!-- Download the table as CSV -->
+	  <script>
+		function downloadCSV(csv, filename) {
+		var csvFile;
+		var downloadLink;
+
+		// CSV file
+		csvFile = new Blob([csv], {type: "text/csv"});
+
+		// Download link
+		downloadLink = document.createElement("a");
+
+		// File name
+		downloadLink.download = filename;
+
+		// Create a link to the file
+		downloadLink.href = window.URL.createObjectURL(csvFile);
+
+		// Hide download link
+		downloadLink.style.display = "none";
+
+		// Add the link to DOM
+		document.body.appendChild(downloadLink);
+
+		// Click download link
+		downloadLink.click();
+	}
+
+	function exportTableToCSV(filename) {
+		var csv = [];
+		
+		id_value = "[id^="+filename+"] tr";
+		var rows = document.querySelectorAll(id_value);
+		
+		for (var i = 0; i < rows.length; i++) {
+			var row = [], cols = rows[i].querySelectorAll("td, th");
+			
+			for (var j = 0; j < cols.length; j++)				
+				if (cols[j].style.display != "none"){
+					row.push(cols[j].innerText);
+				}
+			
+			csv.push(row.join(","));        
+		}
+
+		// Download CSV file
+		filename = filename+".csv"
+		downloadCSV(csv.join("\n"), filename);
+	}
+	  </script>
+	 
+	 <!-- Target Distribution with Categorical Variables -->
+	
+	<script>
+         require(['c3', 'jquery'], function(c3, $) {
+         	$(document).ready(function(){
+         		var chart = c3.generate({
+         			bindto: "#sextarget_distribution", // id of chart wrapper
+         			data: {
+         				columns: [
+         				    // each columns data
+							 
+							 ['0' , '27.25','80.9'],	 
+							 
+							 ['1' , '72.75','19.1'],	 
+							 
+         				], type: 'bar'
+				 },
+			bar: {
+				width: {
+					ratio: 0.5 // this makes bar width 50% of length between ticks
+				}
+				// or
+				//width: 100 // this makes bar width 100px
+			},
+			axis: {
+			  x: {
+				label: {
+				  text: 'sex',
+				  position: 'outer-center',
+				},
+				type: 'category',
+				categories: ['female','male'],
+				tick: {
+				  centered: true
+				}
+			  }},
+			color: {
+					pattern: ['#cfafac','#644172']
+			}
+			});
+		});
+	});
+      </script>  
+	
+	<script>
+         require(['c3', 'jquery'], function(c3, $) {
+         	$(document).ready(function(){
+         		var chart = c3.generate({
+         			bindto: "#embarkedtarget_distribution", // id of chart wrapper
+         			data: {
+         				columns: [
+         				    // each columns data
+							 
+							 ['0' , '44.44','64.23','66.74'],	 
+							 
+							 ['1' , '55.56','35.77','33.26'],	 
+							 
+         				], type: 'bar'
+				 },
+			bar: {
+				width: {
+					ratio: 0.5 // this makes bar width 50% of length between ticks
+				}
+				// or
+				//width: 100 // this makes bar width 100px
+			},
+			axis: {
+			  x: {
+				label: {
+				  text: 'embarked',
+				  position: 'outer-center',
+				},
+				type: 'category',
+				categories: ['C','Q','S'],
+				tick: {
+				  centered: true
+				}
+			  }},
+			color: {
+					pattern: ['#c5a3a0','#b48d73']
+			}
+			});
+		});
+	});
+      </script>  
+	
+	<script>
+         require(['c3', 'jquery'], function(c3, $) {
+         	$(document).ready(function(){
+         		var chart = c3.generate({
+         			bindto: "#sibsptarget_distribution", // id of chart wrapper
+         			data: {
+         				columns: [
+         				    // each columns data
+							 
+							 ['0' , '65.32','48.9','54.76','70.0','86.36','100.0','100.0'],	 
+							 
+							 ['1' , '34.68','51.1','45.24','30.0','13.64','nan','nan'],	 
+							 
+         				], type: 'bar'
+				 },
+			bar: {
+				width: {
+					ratio: 0.5 // this makes bar width 50% of length between ticks
+				}
+				// or
+				//width: 100 // this makes bar width 100px
+			},
+			axis: {
+			  x: {
+				label: {
+				  text: 'sibsp',
+				  position: 'outer-center',
+				},
+				type: 'category',
+				categories: ['0','1','2','3','4','5','8'],
+				tick: {
+				  centered: true
+				}
+			  }},
+			color: {
+					pattern: ['#dbce9a','#838a90']
+			}
+			});
+		});
+	});
+      </script>  
+	
+	<script>
+         require(['c3', 'jquery'], function(c3, $) {
+         	$(document).ready(function(){
+         		var chart = c3.generate({
+         			bindto: "#parchtarget_distribution", // id of chart wrapper
+         			data: {
+         				columns: [
+         				    // each columns data
+							 
+							 ['0' , '66.47','41.18','49.56','37.5','83.33','83.33','100.0'],	 
+							 
+							 ['1' , '33.53','58.82','50.44','62.5','16.67','16.67','nan'],	 
+							 
+         				], type: 'bar'
+				 },
+			bar: {
+				width: {
+					ratio: 0.5 // this makes bar width 50% of length between ticks
+				}
+				// or
+				//width: 100 // this makes bar width 100px
+			},
+			axis: {
+			  x: {
+				label: {
+				  text: 'parch',
+				  position: 'outer-center',
+				},
+				type: 'category',
+				categories: ['0','1','2','3','4','5','9'],
+				tick: {
+				  centered: true
+				}
+			  }},
+			color: {
+					pattern: ['#809aac','#d4e7dc']
+			}
+			});
+		});
+	});
+      </script>  
+	
+	<script>
+         require(['c3', 'jquery'], function(c3, $) {
+         	$(document).ready(function(){
+         		var chart = c3.generate({
+         			bindto: "#pclasstarget_distribution", // id of chart wrapper
+         			data: {
+         				columns: [
+         				    // each columns data
+							 
+							 ['0' , '38.08','57.04','74.47'],	 
+							 
+							 ['1' , '61.92','42.96','25.53'],	 
+							 
+         				], type: 'bar'
+				 },
+			bar: {
+				width: {
+					ratio: 0.5 // this makes bar width 50% of length between ticks
+				}
+				// or
+				//width: 100 // this makes bar width 100px
+			},
+			axis: {
+			  x: {
+				label: {
+				  text: 'pclass',
+				  position: 'outer-center',
+				},
+				type: 'category',
+				categories: ['1','2','3'],
+				tick: {
+				  centered: true
+				}
+			  }},
+			color: {
+					pattern: ['#69997e','#e5dab0']
+			}
+			});
+		});
+	});
+      </script>  
+	
+	
+	
+	<!-- Target Distribution with Continuous Variables -->
+	
+	<script>
+         require(['c3', 'jquery'], function(c3, $) {
+         	$(document).ready(function(){
+         		var chart = c3.generate({
+         			bindto: "#bodycontinuous_target_distribution", // id of chart wrapper
+         			data: {
+					columns: [
+						// each columns data
+						
+					],
+					type: 'bar', // default type of chart
+					fillOpacity: .3,
+					types: {
+						
+					},
+					colors: {
+						
+					},
+					names: {
+						// name of each series
+						
+					}
+				},
+				axis: {
+					x: {
+						type: 'category',
+						// name of each category
+						categories: []
+					},
+				},
+				bar: {
+					width: 	6
+				},
+				legend: {
+					  show: false, //hide legend
+				},
+				padding: {
+					bottom: 0,
+					top: 0
+				},
+			
+			
+			
+			});
+		});
+	});
+      </script>  
+	
+	<script>
+         require(['c3', 'jquery'], function(c3, $) {
+         	$(document).ready(function(){
+         		var chart = c3.generate({
+         			bindto: "#farecontinuous_target_distribution", // id of chart wrapper
+         			data: {
+					columns: [
+						// each columns data
+						
+					],
+					type: 'bar', // default type of chart
+					fillOpacity: .3,
+					types: {
+						
+					},
+					colors: {
+						
+					},
+					names: {
+						// name of each series
+						
+					}
+				},
+				axis: {
+					x: {
+						type: 'category',
+						// name of each category
+						categories: []
+					},
+				},
+				bar: {
+					width: 	6
+				},
+				legend: {
+					  show: false, //hide legend
+				},
+				padding: {
+					bottom: 0,
+					top: 0
+				},
+			
+			
+			
+			});
+		});
+	});
+      </script>  
+	
+	<script>
+         require(['c3', 'jquery'], function(c3, $) {
+         	$(document).ready(function(){
+         		var chart = c3.generate({
+         			bindto: "#agecontinuous_target_distribution", // id of chart wrapper
+         			data: {
+					columns: [
+						// each columns data
+						
+					],
+					type: 'bar', // default type of chart
+					fillOpacity: .3,
+					types: {
+						
+					},
+					colors: {
+						
+					},
+					names: {
+						// name of each series
+						
+					}
+				},
+				axis: {
+					x: {
+						type: 'category',
+						// name of each category
+						categories: []
+					},
+				},
+				bar: {
+					width: 	6
+				},
+				legend: {
+					  show: false, //hide legend
+				},
+				padding: {
+					bottom: 0,
+					top: 0
+				},
+			
+			
+			
+			});
+		});
+	});
+      </script>  
+	
+	
+	<script>
+         require(['c3', 'jquery'], function(c3, $) {
+         	$(document).ready(function(){
+         		var chart = c3.generate({
+         			bindto: '#FeatureTypes', // id of chart wrapper
+         			data: {
+         				columns: [
+         				    // each columns data
+         
+         ['Categorical' , 6],
+         
+         ['Continuous' , 3],
+         
+         ['Others' , 5],
+         
+         				],
+         				type: 'pie', // default type of chart
+         				colors: {
+         
+         'Categorical': '#8EBA43',
+         
+         'Continuous': '#B38867',
+         
+         'Others': '#7F152E',
+         
+         					
+         				},
+         				names: {
+         				    // name of each series
+         
+         'Categorical': 'Categorical',
+         
+         'Continuous': 'Continuous',
+         
+         'Others': 'Others',
+         
+         				}
+         			},
+         			axis: {
+         			},
+         			legend: {
+                         show: true, //hide legend
+         			},
+         			padding: {
+         				bottom: 0,
+         				top: 0
+         			},
+         		});
+         	});
+         });
+      </script>
+	  
+	  <!-- Bar Chart for Null Percentage -->
+	  <script>
+         require(['c3', 'jquery'], function(c3, $) {
+         	$(document).ready(function(){
+         		var chart = c3.generate({
+         			bindto: '#NullPercentage', // id of chart wrapper
+         			data: {
+						x : 'x',
+						columns: [
+							['x','pclass','survived','name','sex','age','sibsp','parch','ticket','fare','cabin','embarked','boat','body','home.dest'],
+							['Null Percentage',0.0,0.0,0.0,0.0,20.0,0.0,0.0,0.0,0.0,77.0,0.0,63.0,91.0,43.0],							
+						],
+						type: 'bar'
+					},
+					axis: {
+						x: {
+							type: 'category',
+							tick: {
+								rotate: 75,
+								multiline: false
+							},
+							height: 130
+						}
+					}
+         		});
+         	});
+         });
+      </script>
+	  
+	  
+	  
+      <script>
+         require(['c3', 'jquery'], function(c3, $) {
+         $(document).ready(function(){
+         var chart = c3.generate({
+         bindto: '#sexPieChart', // id of chart wrapper
+         data: {
+         columns: [
+         // each columns data
+         
+         ['male' , 843],
+         
+         ['female' , 466],
+         
+         ],
+         type: 'pie', // default type of chart
+         colors: {
+         
+         'male': '#5D535E',
+         
+         'female': '#FA6E59',
+         
+         
+         },
+         names: {
+         // name of each series
+         
+         'male': 'male',
+         
+         'female': 'female',
+         
+         }
+         },
+         axis: {
+         },
+         legend: {
+          show: false, //hide legend
+         },
+         padding: {
+         bottom: 0,
+         top: 0,
+         right: 0,
+         left: 0
+         },
+         });
+         });
+         });
+         
+      </script>
+      
+      <script>
+         require(['c3', 'jquery'], function(c3, $) {
+         $(document).ready(function(){
+         var chart = c3.generate({
+         bindto: '#embarkedPieChart', // id of chart wrapper
+         data: {
+         columns: [
+         // each columns data
+         
+         ['S' , 914],
+         
+         ['C' , 270],
+         
+         ['Q' , 123],
+         
+         ],
+         type: 'pie', // default type of chart
+         colors: {
+         
+         'S': '#9A9EAB',
+         
+         'C': '#4B7447',
+         
+         'Q': '#DB9501',
+         
+         
+         },
+         names: {
+         // name of each series
+         
+         'S': 'S',
+         
+         'C': 'C',
+         
+         'Q': 'Q',
+         
+         }
+         },
+         axis: {
+         },
+         legend: {
+          show: false, //hide legend
+         },
+         padding: {
+         bottom: 0,
+         top: 0,
+         right: 0,
+         left: 0
+         },
+         });
+         });
+         });
+         
+      </script>
+      
+      <script>
+         require(['c3', 'jquery'], function(c3, $) {
+         $(document).ready(function(){
+         var chart = c3.generate({
+         bindto: '#sibspPieChart', // id of chart wrapper
+         data: {
+         columns: [
+         // each columns data
+         
+         ['0' , 891],
+         
+         ['1' , 319],
+         
+         ['2' , 42],
+         
+         ['4' , 22],
+         
+         ['3' , 20],
+         
+         ['8' , 9],
+         
+         ['5' , 6],
+         
+         ],
+         type: 'pie', // default type of chart
+         colors: {
+         
+         '0': '#DFE166',
+         
+         '1': '#4B7447',
+         
+         '2': '#73605B',
+         
+         '4': '#C05805',
+         
+         '3': '#A1BE95',
+         
+         '8': '#92AAC7',
+         
+         '5': '#805A3B',
+         
+         
+         },
+         names: {
+         // name of each series
+         
+         '0': '0',
+         
+         '1': '1',
+         
+         '2': '2',
+         
+         '4': '4',
+         
+         '3': '3',
+         
+         '8': '8',
+         
+         '5': '5',
+         
+         }
+         },
+         axis: {
+         },
+         legend: {
+          show: false, //hide legend
+         },
+         padding: {
+         bottom: 0,
+         top: 0,
+         right: 0,
+         left: 0
+         },
+         });
+         });
+         });
+         
+      </script>
+      
+      <script>
+         require(['c3', 'jquery'], function(c3, $) {
+         $(document).ready(function(){
+         var chart = c3.generate({
+         bindto: '#parchPieChart', // id of chart wrapper
+         data: {
+         columns: [
+         // each columns data
+         
+         ['0' , 1002],
+         
+         ['1' , 170],
+         
+         ['2' , 113],
+         
+         ['3' , 8],
+         
+         ['4' , 6],
+         
+         ['5' , 6],
+         
+         ['6' , 2],
+         
+         ['9' , 2],
+         
+         ],
+         type: 'pie', // default type of chart
+         colors: {
+         
+         '0': '#4F6457',
+         
+         '1': '#4B7447',
+         
+         '2': '#6E6702',
+         
+         '3': '#C05805',
+         
+         '4': '#B38867',
+         
+         '5': '#92AAC7',
+         
+         '6': '#805A3B',
+         
+         '9': '#7F152E',
+         
+         
+         },
+         names: {
+         // name of each series
+         
+         '0': '0',
+         
+         '1': '1',
+         
+         '2': '2',
+         
+         '3': '3',
+         
+         '4': '4',
+         
+         '5': '5',
+         
+         '6': '6',
+         
+         '9': '9',
+         
+         }
+         },
+         axis: {
+         },
+         legend: {
+          show: false, //hide legend
+         },
+         padding: {
+         bottom: 0,
+         top: 0,
+         right: 0,
+         left: 0
+         },
+         });
+         });
+         });
+         
+      </script>
+      
+      <script>
+         require(['c3', 'jquery'], function(c3, $) {
+         $(document).ready(function(){
+         var chart = c3.generate({
+         bindto: '#pclassPieChart', // id of chart wrapper
+         data: {
+         columns: [
+         // each columns data
+         
+         ['3' , 709],
+         
+         ['1' , 323],
+         
+         ['2' , 277],
+         
+         ],
+         type: 'pie', // default type of chart
+         colors: {
+         
+         '3': '#9A9EAB',
+         
+         '1': '#4B7447',
+         
+         '2': '#805A3B',
+         
+         
+         },
+         names: {
+         // name of each series
+         
+         '3': '3',
+         
+         '1': '1',
+         
+         '2': '2',
+         
+         }
+         },
+         axis: {
+         },
+         legend: {
+          show: false, //hide legend
+         },
+         padding: {
+         bottom: 0,
+         top: 0,
+         right: 0,
+         left: 0
+         },
+         });
+         });
+         });
+         
+      </script>
+      
+	
+	<!-- Target Distribution with Continuous Variables -->
+	
+	<script>
+         require(['c3', 'jquery'], function(c3, $) {
+         	$(document).ready(function(){
+         		var chart = c3.generate({
+         			bindto: "#bodycontinuous_distribution", // id of chart wrapper
+         			data: {
+					columns: [
+						// each columns data
+						
+						['data_body_hist', 0.00354,0.00531,0.00088,0.00354,0.00354,0.00354,0.00265,0.00531,0.00265,0.00088,0.00442,0.00265,0.00354,0.00354,0.00177,0.00442,0.00265,0.00265,0.00531,0.00177,0.00442,0.00177,0.00265,0.0,0.00265,0.00088,0.00177,0.00531,0.00265,0.00088,0.00442,0.00619,0.00442,0.00177,0.00265],
+						['data_body_pdf', 0.00106,0.00124,0.00143,0.00164,0.00186,0.00209,0.00232,0.00256,0.0028,0.00303,0.00325,0.00345,0.00364,0.00379,0.00392,0.00402,0.00408,0.0041,0.00409,0.00403,0.00395,0.00382,0.00367,0.00349,0.00329,0.00308,0.00285,0.00261,0.00237,0.00214,0.0019,0.00168,0.00147,0.00128,0.0011,0.00094],
+						
+					],
+					type: 'bar', // default type of chart
+					fillOpacity: .3,
+					types: {
+						
+						'data_body_pdf': "line",
+						
+					},
+					colors: {
+						
+						'data_body_hist': "#D09683",
+						'data_body_pdf': "#A1BE95",
+						
+					},
+					names: {
+						// name of each series
+						
+						'data_body_hist': 'body_Pr(x)',
+						'data_body_pdf': 'body_PDF',
+						
+					}
+				},
+				axis: {
+					x: {
+						type: 'category',
+						// name of each category
+						categories: [ 1.0,10.342857142857143,19.685714285714287,29.028571428571432,38.371428571428574,47.714285714285715,57.057142857142864,66.4,75.74285714285715,85.08571428571429,94.42857142857143,103.77142857142857,113.11428571428573,122.45714285714287,131.8,141.14285714285714,150.4857142857143,159.82857142857145,169.17142857142858,178.51428571428573,187.85714285714286,197.20000000000002,206.54285714285714,215.8857142857143,225.22857142857146,234.57142857142858,243.91428571428574,253.25714285714287,262.6,271.9428571428572,281.2857142857143,290.62857142857143,299.9714285714286,309.31428571428575,318.6571428571429,328.0, ]
+					},
+				},
+				bar: {
+					width: 	6
+				},
+				legend: {
+					  show: false, //hide legend
+				},
+				padding: {
+					bottom: 0,
+					top: 0
+				},
+			
+			
+			
+			});
+		});
+	});
+      </script>  
+	
+	<script>
+         require(['c3', 'jquery'], function(c3, $) {
+         	$(document).ready(function(){
+         		var chart = c3.generate({
+         			bindto: "#farecontinuous_distribution", // id of chart wrapper
+         			data: {
+					columns: [
+						// each columns data
+						
+						['data_fare_hist', 0.0351,0.01468,0.00517,0.00345,0.00198,0.00287,0.00068,0.00068,0.00021,0.00068,0.00063,0.00021,0.0,0.0,0.00047,0.00047,0.00016,0.00068,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.00021],
+						['data_fare_pdf', 0.00627,0.00723,0.00769,0.00755,0.00684,0.00573,0.00442,0.00315,0.00208,0.00126,0.00071,0.00037,0.00018,8e-05,3e-05,1e-05,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],
+						
+					],
+					type: 'bar', // default type of chart
+					fillOpacity: .3,
+					types: {
+						
+						'data_fare_pdf': "line",
+						
+					},
+					colors: {
+						
+						'data_fare_hist': "#D09683",
+						'data_fare_pdf': "#FA6E59",
+						
+					},
+					names: {
+						// name of each series
+						
+						'data_fare_hist': 'fare_Pr(x)',
+						'data_fare_pdf': 'fare_PDF',
+						
+					}
+				},
+				axis: {
+					x: {
+						type: 'category',
+						// name of each category
+						categories: [ 0.0,14.637977142857144,29.27595428571429,43.91393142857143,58.55190857142858,73.18988571428572,87.82786285714286,102.46584000000001,117.10381714285715,131.7417942857143,146.37977142857144,161.0177485714286,175.65572571428572,190.29370285714288,204.93168000000003,219.56965714285715,234.2076342857143,248.84561142857146,263.4835885714286,278.12156571428574,292.7595428571429,307.39752000000004,322.0354971428572,336.6734742857143,351.31145142857144,365.9494285714286,380.58740571428575,395.2253828571429,409.86336000000006,424.50133714285715,439.1393142857143,453.77729142857146,468.4152685714286,483.05324571428577,497.6912228571429,512.3292, ]
+					},
+				},
+				bar: {
+					width: 	6
+				},
+				legend: {
+					  show: false, //hide legend
+				},
+				padding: {
+					bottom: 0,
+					top: 0
+				},
+			
+			
+			
+			});
+		});
+	});
+      </script>  
+	
+	<script>
+         require(['c3', 'jquery'], function(c3, $) {
+         	$(document).ready(function(){
+         		var chart = c3.generate({
+         			bindto: "#agecontinuous_distribution", // id of chart wrapper
+         			data: {
+					columns: [
+						// each columns data
+						
+						['data_age_hist', 0.01425,0.00713,0.00629,0.00671,0.00377,0.00335,0.01467,0.02473,0.02347,0.03563,0.04569,0.02557,0.02724,0.0373,0.01718,0.02431,0.01006,0.02179,0.01132,0.01383,0.01425,0.01006,0.00587,0.00587,0.00754,0.00377,0.00545,0.00587,0.00168,0.00042,0.00126,0.00084,0.00042,0.00042,0.00042],
+						['data_age_pdf', 0.0033,0.00452,0.00603,0.00785,0.00997,0.01235,0.01491,0.01756,0.02017,0.0226,0.02469,0.0263,0.02733,0.02769,0.02737,0.02637,0.02479,0.02272,0.02031,0.01771,0.01506,0.01248,0.01009,0.00796,0.00612,0.00459,0.00336,0.0024,0.00167,0.00113,0.00075,0.00048,0.0003,0.00019,0.00011,7e-05],
+						
+					],
+					type: 'bar', // default type of chart
+					fillOpacity: .3,
+					types: {
+						
+						'data_age_pdf': "line",
+						
+					},
+					colors: {
+						
+						'data_age_hist': "#5D535E",
+						'data_age_pdf': "#4B7447",
+						
+					},
+					names: {
+						// name of each series
+						
+						'data_age_hist': 'age_Pr(x)',
+						'data_age_pdf': 'age_PDF',
+						
+					}
+				},
+				axis: {
+					x: {
+						type: 'category',
+						// name of each category
+						categories: [ 0.1667,2.4476514285714286,4.728602857142857,7.009554285714285,9.290505714285715,11.571457142857144,13.85240857142857,16.13336,18.414311428571427,20.695262857142854,22.976214285714285,25.257165714285712,27.53811714285714,29.81906857142857,32.10002,34.38097142857143,36.661922857142855,38.94287428571428,41.22382571428571,43.504777142857144,45.78572857142857,48.06668,50.347631428571425,52.62858285714285,54.90953428571428,57.190485714285714,59.47143714285714,61.75238857142857,64.03334,66.31429142857144,68.59524285714286,70.87619428571429,73.15714571428572,75.43809714285715,77.71904857142857,80.0, ]
+					},
+				},
+				bar: {
+					width: 	6
+				},
+				legend: {
+					  show: false, //hide legend
+				},
+				padding: {
+					bottom: 0,
+					top: 0
+				},
+			
+			
+			
+			});
+		});
+	});
+      </script>  
+	
+	
+	<!-- Target Distribution with Continuous Variables -->
+	
+	<script>
+         require(['c3', 'jquery'], function(c3, $) {
+         	$(document).ready(function(){
+         		var chart = c3.generate({
+         			bindto: "#bodycontinuous_actual_distribution", // id of chart wrapper
+         			data: {
+					columns: [
+						// each columns data
+						
+						['data_body_hist', 4,6,1,4,4,4,3,6,3,1,5,3,4,4,2,5,3,3,6,2,5,2,3,0,3,1,2,6,3,1,5,7,5,2,3]
+						
+					],
+					type: 'bar', // default type of chart
+					fillOpacity: .3,
+					
+					colors: {
+						
+						'data_body_hist': "#A1BE95"						
+						
+					},
+					names: {
+						// name of each series
+						
+						'data_body_hist': 'body'
+						
+					}
+				},
+				axis: {
+					x: {
+						type: 'category',
+						// name of each category
+						categories: [ 1.0,10.342857142857143,19.685714285714287,29.028571428571432,38.371428571428574,47.714285714285715,57.057142857142864,66.4,75.74285714285715,85.08571428571429,94.42857142857143,103.77142857142857,113.11428571428573,122.45714285714287,131.8,141.14285714285714,150.4857142857143,159.82857142857145,169.17142857142858,178.51428571428573,187.85714285714286,197.20000000000002,206.54285714285714,215.8857142857143,225.22857142857146,234.57142857142858,243.91428571428574,253.25714285714287,262.6,271.9428571428572,281.2857142857143,290.62857142857143,299.9714285714286,309.31428571428575,318.6571428571429,328.0, ]
+					},
+				},
+				bar: {
+					width: 	6
+				},
+				legend: {
+					  show: false, //hide legend
+				},
+				padding: {
+					bottom: 0,
+					top: 0
+				},
+			
+			
+			
+			});
+		});
+	});
+      </script>  
+	
+	<script>
+         require(['c3', 'jquery'], function(c3, $) {
+         	$(document).ready(function(){
+         		var chart = c3.generate({
+         			bindto: "#farecontinuous_actual_distribution", // id of chart wrapper
+         			data: {
+					columns: [
+						// each columns data
+						
+						['data_fare_hist', 672,281,99,66,38,55,13,13,4,13,12,4,0,0,9,9,3,13,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4]
+						
+					],
+					type: 'bar', // default type of chart
+					fillOpacity: .3,
+					
+					colors: {
+						
+						'data_fare_hist': "#FA6E59"						
+						
+					},
+					names: {
+						// name of each series
+						
+						'data_fare_hist': 'fare'
+						
+					}
+				},
+				axis: {
+					x: {
+						type: 'category',
+						// name of each category
+						categories: [ 0.0,14.637977142857144,29.27595428571429,43.91393142857143,58.55190857142858,73.18988571428572,87.82786285714286,102.46584000000001,117.10381714285715,131.7417942857143,146.37977142857144,161.0177485714286,175.65572571428572,190.29370285714288,204.93168000000003,219.56965714285715,234.2076342857143,248.84561142857146,263.4835885714286,278.12156571428574,292.7595428571429,307.39752000000004,322.0354971428572,336.6734742857143,351.31145142857144,365.9494285714286,380.58740571428575,395.2253828571429,409.86336000000006,424.50133714285715,439.1393142857143,453.77729142857146,468.4152685714286,483.05324571428577,497.6912228571429,512.3292, ]
+					},
+				},
+				bar: {
+					width: 	6
+				},
+				legend: {
+					  show: false, //hide legend
+				},
+				padding: {
+					bottom: 0,
+					top: 0
+				},
+			
+			
+			
+			});
+		});
+	});
+      </script>  
+	
+	<script>
+         require(['c3', 'jquery'], function(c3, $) {
+         	$(document).ready(function(){
+         		var chart = c3.generate({
+         			bindto: "#agecontinuous_actual_distribution", // id of chart wrapper
+         			data: {
+					columns: [
+						// each columns data
+						
+						['data_age_hist', 34,17,15,16,9,8,35,59,56,85,109,61,65,89,41,58,24,52,27,33,34,24,14,14,18,9,13,14,4,1,3,2,1,1,1]
+						
+					],
+					type: 'bar', // default type of chart
+					fillOpacity: .3,
+					
+					colors: {
+						
+						'data_age_hist': "#4B7447"						
+						
+					},
+					names: {
+						// name of each series
+						
+						'data_age_hist': 'age'
+						
+					}
+				},
+				axis: {
+					x: {
+						type: 'category',
+						// name of each category
+						categories: [ 0.1667,2.4476514285714286,4.728602857142857,7.009554285714285,9.290505714285715,11.571457142857144,13.85240857142857,16.13336,18.414311428571427,20.695262857142854,22.976214285714285,25.257165714285712,27.53811714285714,29.81906857142857,32.10002,34.38097142857143,36.661922857142855,38.94287428571428,41.22382571428571,43.504777142857144,45.78572857142857,48.06668,50.347631428571425,52.62858285714285,54.90953428571428,57.190485714285714,59.47143714285714,61.75238857142857,64.03334,66.31429142857144,68.59524285714286,70.87619428571429,73.15714571428572,75.43809714285715,77.71904857142857,80.0, ]
+					},
+				},
+				bar: {
+					width: 	6
+				},
+				legend: {
+					  show: false, //hide legend
+				},
+				padding: {
+					bottom: 0,
+					top: 0
+				},
+			
+			
+			
+			});
+		});
+	});
+      </script>  
+	
+	
+	
+   </head>
+   <body class="">
+      <div class="page">
+         <div class="page-main">
+            <div class="header py-4">
+               <div class="container">
+                  <div class="d-flex">
+                     <img src="./assets/image/binoculars.png" class="header-brand-img" alt="">
+                     <h1> ExploriPy - Target Specific EDA</h1>
+                     <div class="d-flex order-lg-2 ml-auto">
+                        <div class="nav-item d-none d-md-flex">
+                        </div>
+                        <div class="dropdown d-none d-md-flex">
+                           <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                              <div class="dropdown-divider"></div>
+                           </div>
+                        </div>
+                        <div class="dropdown">
+                        </div>
+                     </div>
+                     <a href="#" class="header-toggler d-lg-none ml-3 ml-lg-0" data-toggle="collapse" data-target="#headerMenuCollapse">
+                     <span class="header-toggler-icon"></span>
+                     </a>
+                  </div>
+               </div>
+            </div>
+            <div class="header collapse d-lg-flex p-0" id="headerMenuCollapse">
+               <div class="container">
+                  <div class="row align-items-center">
+                     <div class="col-lg-3 ml-auto">
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="my-3 my-md-5">
+               <div class="container">
+                  <div class="page-header">
+                     <h1 class="page-title">
+                        Exploratory Data Analysis for Big Mart Sales III - Based on Item_Outlet_Sales
+                     </h1>
+                  </div>
+                  <div class="row row-cards">
+				  
+					<div class="col-lg-6">
+                        <div class="card">
+                           <div class="card-header">
+                              <h3 class="card-title">List Of Fields</h3>
+                           </div>
+                           <div class="table-responsive">
+                              <table class="table card-table table-striped table-vcenter">
+                                 <thead>
+                                    <tr>
+                                       <th colspan="2">Field</th>
+                                       <th>Type</th>
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                                    
+                                    <tr>
+                                       <td style="width: 46.4px;"><span class="avatar";>1</span></td>
+                                       <td style="width: 146.4px;">pclass</td>
+                                       <td style="width: 147.2px;">int64</td>
+                                    </tr>
+                                    
+                                    <tr>
+                                       <td style="width: 46.4px;"><span class="avatar";>2</span></td>
+                                       <td style="width: 146.4px;">survived</td>
+                                       <td style="width: 147.2px;">int64</td>
+                                    </tr>
+                                    
+                                    <tr>
+                                       <td style="width: 46.4px;"><span class="avatar";>3</span></td>
+                                       <td style="width: 146.4px;">name</td>
+                                       <td style="width: 147.2px;">object</td>
+                                    </tr>
+                                    
+                                    <tr>
+                                       <td style="width: 46.4px;"><span class="avatar";>4</span></td>
+                                       <td style="width: 146.4px;">sex</td>
+                                       <td style="width: 147.2px;">object</td>
+                                    </tr>
+                                    
+                                    <tr>
+                                       <td style="width: 46.4px;"><span class="avatar";>5</span></td>
+                                       <td style="width: 146.4px;">age</td>
+                                       <td style="width: 147.2px;">float64</td>
+                                    </tr>
+                                    
+                                    <tr>
+                                       <td style="width: 46.4px;"><span class="avatar";>6</span></td>
+                                       <td style="width: 146.4px;">sibsp</td>
+                                       <td style="width: 147.2px;">int64</td>
+                                    </tr>
+                                    
+                                    <tr>
+                                       <td style="width: 46.4px;"><span class="avatar";>7</span></td>
+                                       <td style="width: 146.4px;">parch</td>
+                                       <td style="width: 147.2px;">int64</td>
+                                    </tr>
+                                    
+                                    <tr>
+                                       <td style="width: 46.4px;"><span class="avatar";>8</span></td>
+                                       <td style="width: 146.4px;">ticket</td>
+                                       <td style="width: 147.2px;">object</td>
+                                    </tr>
+                                    
+                                    <tr>
+                                       <td style="width: 46.4px;"><span class="avatar";>9</span></td>
+                                       <td style="width: 146.4px;">fare</td>
+                                       <td style="width: 147.2px;">float64</td>
+                                    </tr>
+                                    
+                                    <tr>
+                                       <td style="width: 46.4px;"><span class="avatar";>10</span></td>
+                                       <td style="width: 146.4px;">cabin</td>
+                                       <td style="width: 147.2px;">object</td>
+                                    </tr>
+                                    
+                                    <tr>
+                                       <td style="width: 46.4px;"><span class="avatar";>11</span></td>
+                                       <td style="width: 146.4px;">embarked</td>
+                                       <td style="width: 147.2px;">object</td>
+                                    </tr>
+                                    
+                                    <tr>
+                                       <td style="width: 46.4px;"><span class="avatar";>12</span></td>
+                                       <td style="width: 146.4px;">boat</td>
+                                       <td style="width: 147.2px;">object</td>
+                                    </tr>
+                                    
+                                    <tr>
+                                       <td style="width: 46.4px;"><span class="avatar";>13</span></td>
+                                       <td style="width: 146.4px;">body</td>
+                                       <td style="width: 147.2px;">float64</td>
+                                    </tr>
+                                    
+                                    <tr>
+                                       <td style="width: 46.4px;"><span class="avatar";>14</span></td>
+                                       <td style="width: 146.4px;">home.dest</td>
+                                       <td style="width: 147.2px;">object</td>
+                                    </tr>
+                                    
+                                 </tbody>
+                              </table>
+                           </div>
+                        </div>
+                     </div>
+					 
+					<div class="col-md-6">
+                        <div class="row">
+                           <div class="col-sm-10">
+                              <div class="card">
+                                 <div class="card-header">
+                                    <h3 class="card-title">Categorical Vs Continuous</h3>
+                                 </div>
+                                 <div class="card-body">
+                                    <div class="embed-wrapper">
+                                       <div id="FeatureTypes" style="height: 18rem;"></div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+					
+					<div class="col-sm-4">
+                        <div class="card">
+                           <div class="card-body text-center">
+                              <div class="h3">Continuous Variables</div>
+                              <div class="text-left">
+                                 <ul class="list-unstyled leading-loose">
+                                    
+                                    <li><i class="fe fe-droplet text-success mr-2" aria-hidden="true"></i>body</li>
+                                    
+                                    <li><i class="fe fe-droplet text-success mr-2" aria-hidden="true"></i>fare</li>
+                                    
+                                    <li><i class="fe fe-droplet text-success mr-2" aria-hidden="true"></i>age</li>
+                                    
+                                 </ul>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-sm-4">
+                        <div class="card">
+                           <div class="card-body text-center">
+                              <div class="h3">Categorical Variables</div>
+                              <div class="text-left">
+                                 <ul class="list-unstyled leading-loose">
+                                    
+                                    <li><i class="fe fe-droplet text-primary mr-2" aria-hidden="true"></i>sex</li>
+                                    
+                                    <li><i class="fe fe-droplet text-primary mr-2" aria-hidden="true"></i>embarked</li>
+                                    
+                                    <li><i class="fe fe-droplet text-primary mr-2" aria-hidden="true"></i>survived</li>
+                                    
+                                    <li><i class="fe fe-droplet text-primary mr-2" aria-hidden="true"></i>sibsp</li>
+                                    
+                                    <li><i class="fe fe-droplet text-primary mr-2" aria-hidden="true"></i>parch</li>
+                                    
+                                    <li><i class="fe fe-droplet text-primary mr-2" aria-hidden="true"></i>pclass</li>
+                                    
+                                 </ul>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-sm-4">
+                        <div class="card">
+                           <div class="card-body text-center">
+                              <div class="h3">Other Variables</div>
+                              <div class="text-left">
+                                 <ul class="list-unstyled leading-loose">
+                                    
+                                    <li><i class="fe fe-droplet text-yellow mr-2" aria-hidden="true"></i>name</li>
+                                    
+                                    <li><i class="fe fe-droplet text-yellow mr-2" aria-hidden="true"></i>ticket</li>
+                                    
+                                    <li><i class="fe fe-droplet text-yellow mr-2" aria-hidden="true"></i>cabin</li>
+                                    
+                                    <li><i class="fe fe-droplet text-yellow mr-2" aria-hidden="true"></i>boat</li>
+                                    
+                                    <li><i class="fe fe-droplet text-yellow mr-2" aria-hidden="true"></i>home.dest</li>
+                                    
+                                 </ul>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+					
+					
+					<!-- Null Values -->
+					 <div class="col-md-12">
+                        <div class="card">
+                           <div class="card-header">
+                              <div class="card-title"> <div class="h3">Null Values</div> </div>								
+                              <div class="card-options">
+                                 <a href="#" class="card-options-collapse" data-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>
+                              </div>
+                           </div>
+						   <div class = "card-body text-center">
+								<div class = "row">
+									<div class="col-sm-6">
+											<div class="card">
+											   <div class="card-body text-center">
+												  <div class="h3">Null Percentage</div>
+												  <div class="text-left">													 
+														<table class="table table-striped">
+														  <thead>
+															 <tr>
+																<th>Feature</th>
+																<th>Percentage</th>
+															 </tr>
+														  </thead>
+														  <tbody>
+															 
+															 <tr>
+																<td style="width: 146.4px;">pclass</td>
+																<td style="width: 147.2px;">0.0%</td>
+															 </tr>
+															 
+															 <tr>
+																<td style="width: 146.4px;">survived</td>
+																<td style="width: 147.2px;">0.0%</td>
+															 </tr>
+															 
+															 <tr>
+																<td style="width: 146.4px;">name</td>
+																<td style="width: 147.2px;">0.0%</td>
+															 </tr>
+															 
+															 <tr>
+																<td style="width: 146.4px;">sex</td>
+																<td style="width: 147.2px;">0.0%</td>
+															 </tr>
+															 
+															 <tr>
+																<td style="width: 146.4px;">age</td>
+																<td style="width: 147.2px;">20.0%</td>
+															 </tr>
+															 
+															 <tr>
+																<td style="width: 146.4px;">sibsp</td>
+																<td style="width: 147.2px;">0.0%</td>
+															 </tr>
+															 
+															 <tr>
+																<td style="width: 146.4px;">parch</td>
+																<td style="width: 147.2px;">0.0%</td>
+															 </tr>
+															 
+															 <tr>
+																<td style="width: 146.4px;">ticket</td>
+																<td style="width: 147.2px;">0.0%</td>
+															 </tr>
+															 
+															 <tr>
+																<td style="width: 146.4px;">fare</td>
+																<td style="width: 147.2px;">0.0%</td>
+															 </tr>
+															 
+															 <tr>
+																<td style="width: 146.4px;">cabin</td>
+																<td style="width: 147.2px;">77.0%</td>
+															 </tr>
+															 
+															 <tr>
+																<td style="width: 146.4px;">embarked</td>
+																<td style="width: 147.2px;">0.0%</td>
+															 </tr>
+															 
+															 <tr>
+																<td style="width: 146.4px;">boat</td>
+																<td style="width: 147.2px;">63.0%</td>
+															 </tr>
+															 
+															 <tr>
+																<td style="width: 146.4px;">body</td>
+																<td style="width: 147.2px;">91.0%</td>
+															 </tr>
+															 
+															 <tr>
+																<td style="width: 146.4px;">home.dest</td>
+																<td style="width: 147.2px;">43.0%</td>
+															 </tr>
+															 
+														  </tbody>
+													   </table>
+													   
+												  </div>
+											   </div>
+											</div>
+										 </div>
+									<div class="col-md-6">
+										<div class="row">
+										   <div class="col-sm-10">
+											  <div class="card">
+												 <div class="card-header">
+													<h3 class="card-title">Null Percentage</h3>
+												 </div>
+												 <div class="card-body">
+													<div class="embed-wrapper">
+													   <div id="NullPercentage" style="height: 18rem;"></div>
+													</div>
+												 </div>
+											  </div>
+										   </div>
+										</div>
+									 </div>
+								</div>								
+						   </div>
+						</div>						
+					 </div>
+					 
+					 
+					<div class="col-sm-4">
+                        <div class="card">
+							  <div class="card-header">
+								<h3 class="card-title">Target Variable - survived</h3>
+							  </div>
+							  <div class="card-body">
+								  <div class="text-left">
+									<p><i class="fe fe-droplet text-primary mr-2" aria-hidden="true"></i>Total Number of Records - 1309
+									<p><i class="fe fe-droplet text-primary mr-2" aria-hidden="true"></i>Total Number of Nulls - 0
+									<p><i class="fe fe-droplet text-primary mr-2" aria-hidden="true"></i>Percentage of Nulls - 0.0                               
+								  </div>
+							  </div>
+                           </div>
+                    </div>                     
+					
+					 
+                     <div class="col-sm-4">
+                        <div class="card">
+                           <div class="card-header">
+                              <h3 class="card-title">List Of Categories in the Target Variable</h3>
+                           </div>
+                           <div class="table-responsive">
+                              <table class="table card-table table-striped table-vcenter">
+                                 <thead>
+                                    <tr>
+                                       <th colspan="2">Category</th>
+                                       <th>Number of Records</th>
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                                    
+                                    <tr>
+                                       <td style="width: 46.4px;"><span class="avatar";>1</span></td>
+                                       <td style="width: 146.4px;">0</td>
+                                       <td style="width: 147.2px;">809</td>
+                                    </tr>
+                                    
+                                    <tr>
+                                       <td style="width: 46.4px;"><span class="avatar";>2</span></td>
+                                       <td style="width: 146.4px;">1</td>
+                                       <td style="width: 147.2px;">500</td>
+                                    </tr>
+                                    
+                                 </tbody>
+                              </table>
+                           </div>
+                        </div>
+                     </div>
+					 
+					 
+					 <div class="col-lg-4">
+                        <div class="row">                           
+						  <div class="card">
+							 <div class="card-header">
+								<h3 class="card-title">Percentage of Target Categories</h3>
+							 </div>
+							 <div class="card-body">
+								<div class="embed-wrapper">
+								   <div id="TargetPercentage" style="height: 18rem;"></div>
+								</div>
+							 </div>
+						  </div>                           
+                        </div>
+                     </div>
+		             </div>
+					 
+					 <div class="row">
+						<div class="col-xl-12">
+							<div class="card">
+							
+							   <div class="card-header">
+								  <h3 class="card-title">
+									 <div class="h3">Categorical Vs Target</div>
+								  </h3>
+								  <div class="card-options">
+									 <a href="#" class="card-options-collapse" data-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>
+								  </div>
+							   </div>
+							   
+							   <div class="row">
+									<div class="col-sm-6">
+										<div class="card">
+											<div class="card-header text-center">
+												 <div class="h4">Dependent Variable - Based on ChiSquare Test of Independence
+													<p> <p>
+													<button onclick="exportTableToCSV('ChiSquareDependent')">CSV</button>
+												  </div>											   
+											</div>
+											
+											<div class="card-body">
+											   <table class="table table-striped" id="ChiSquareDependent">
+												  <thead>
+													 <tr>
+														<th>Feature</th>
+														<th>PValue</th>
+													 </tr>
+												  </thead>
+												  <tbody>
+													 
+													 <tr>
+														<td style="width: 147.2px;">sex</td>
+														<td style="width: 147.2px;">0.0</td>
+													 </tr>
+													 
+													 <tr>
+														<td style="width: 147.2px;">pclass</td>
+														<td style="width: 147.2px;">0.0</td>
+													 </tr>
+													 
+													 <tr>
+														<td style="width: 147.2px;">embarked</td>
+														<td style="width: 147.2px;">0.0</td>
+													 </tr>
+													 
+													 <tr>
+														<td style="width: 147.2px;">parch</td>
+														<td style="width: 147.2px;">0.0</td>
+													 </tr>
+													 
+													 <tr>
+														<td style="width: 147.2px;">sibsp</td>
+														<td style="width: 147.2px;">0.0</td>
+													 </tr>
+													 
+												  </tbody>
+											   </table>
+											</div>
+										</div>
+								  </div>
+							   </div>
+							   
+							
+								
+								 <div class="row">
+									<div class="col-sm-12">
+										<div class="card">
+											<div class="card-header text-center">
+												 <div class="h4">Target Distribution for Categorical Variables												
+												  </div>											   
+											</div>
+											<div class="card-body">												
+												<div class="row">
+													
+													<div class="col-sm-4">
+														<div class="card">
+															<div class="card-header text-center">
+															   <h4> sex </h4>
+															</div>
+															<div class="card-body">
+															
+																
+																	
+																	   <!-- <div class="table-responsive"> -->
+																	   <table class="table table-striped">
+																		  <thead>
+																			 <tr>
+																				<th>Category (Top 30)</th>
+																				<th>Number of Records</th>
+																			 </tr>
+																		  </thead>
+																		  <tbody>
+																			 
+																			 <tr>
+																				<td style="width: 146.4px;">male</td>
+																				<td style="width: 147.2px;">843</td>
+																			 </tr>
+																			 
+																			 <tr>
+																				<td style="width: 146.4px;">female</td>
+																				<td style="width: 147.2px;">466</td>
+																			 </tr>
+																			 
+																		  </tbody>
+																	   </table>
+																	   <div class="embed-wrapper">
+																		  <div id="sexPieChart" style="height: 12rem;" ></div>
+																	   </div>
+																	
+																 
+																
+																<div class="embed-wrapper">
+																   <div id="sextarget_distribution" style="height: 18rem;"></div>																  
+																</div>
+																
+																<div class="card">
+																   <div class="card-header">
+																	  <h3 class="card-title">Null Percentage in Target (Top 10 Categories)</h3>
+																   </div>
+																   <div class="table-responsive">
+																	  <table class="table card-table table-striped table-vcenter">
+																		 <thead>
+																			<tr>
+																			   <th colspan="2">Category</th>
+																			   <th>Null Percentage</th>
+																			</tr>
+																		 </thead>
+																		 <tbody>
+																			
+																		 </tbody>
+																	  </table>
+																   </div>
+																</div>
+																
+															</div>
+														</div>
+													</div>
+													
+													<div class="col-sm-4">
+														<div class="card">
+															<div class="card-header text-center">
+															   <h4> embarked </h4>
+															</div>
+															<div class="card-body">
+															
+																
+																	
+																	   <!-- <div class="table-responsive"> -->
+																	   <table class="table table-striped">
+																		  <thead>
+																			 <tr>
+																				<th>Category (Top 30)</th>
+																				<th>Number of Records</th>
+																			 </tr>
+																		  </thead>
+																		  <tbody>
+																			 
+																			 <tr>
+																				<td style="width: 146.4px;">S</td>
+																				<td style="width: 147.2px;">914</td>
+																			 </tr>
+																			 
+																			 <tr>
+																				<td style="width: 146.4px;">C</td>
+																				<td style="width: 147.2px;">270</td>
+																			 </tr>
+																			 
+																			 <tr>
+																				<td style="width: 146.4px;">Q</td>
+																				<td style="width: 147.2px;">123</td>
+																			 </tr>
+																			 
+																		  </tbody>
+																	   </table>
+																	   <div class="embed-wrapper">
+																		  <div id="embarkedPieChart" style="height: 12rem;" ></div>
+																	   </div>
+																	
+																 
+																
+																<div class="embed-wrapper">
+																   <div id="embarkedtarget_distribution" style="height: 18rem;"></div>																  
+																</div>
+																
+																<div class="card">
+																   <div class="card-header">
+																	  <h3 class="card-title">Null Percentage in Target (Top 10 Categories)</h3>
+																   </div>
+																   <div class="table-responsive">
+																	  <table class="table card-table table-striped table-vcenter">
+																		 <thead>
+																			<tr>
+																			   <th colspan="2">Category</th>
+																			   <th>Null Percentage</th>
+																			</tr>
+																		 </thead>
+																		 <tbody>
+																			
+																		 </tbody>
+																	  </table>
+																   </div>
+																</div>
+																
+															</div>
+														</div>
+													</div>
+													
+													<div class="col-sm-4">
+														<div class="card">
+															<div class="card-header text-center">
+															   <h4> sibsp </h4>
+															</div>
+															<div class="card-body">
+															
+																
+																	
+																	   <!-- <div class="table-responsive"> -->
+																	   <table class="table table-striped">
+																		  <thead>
+																			 <tr>
+																				<th>Category (Top 30)</th>
+																				<th>Number of Records</th>
+																			 </tr>
+																		  </thead>
+																		  <tbody>
+																			 
+																			 <tr>
+																				<td style="width: 146.4px;">0</td>
+																				<td style="width: 147.2px;">891</td>
+																			 </tr>
+																			 
+																			 <tr>
+																				<td style="width: 146.4px;">1</td>
+																				<td style="width: 147.2px;">319</td>
+																			 </tr>
+																			 
+																			 <tr>
+																				<td style="width: 146.4px;">2</td>
+																				<td style="width: 147.2px;">42</td>
+																			 </tr>
+																			 
+																			 <tr>
+																				<td style="width: 146.4px;">4</td>
+																				<td style="width: 147.2px;">22</td>
+																			 </tr>
+																			 
+																			 <tr>
+																				<td style="width: 146.4px;">3</td>
+																				<td style="width: 147.2px;">20</td>
+																			 </tr>
+																			 
+																			 <tr>
+																				<td style="width: 146.4px;">8</td>
+																				<td style="width: 147.2px;">9</td>
+																			 </tr>
+																			 
+																			 <tr>
+																				<td style="width: 146.4px;">5</td>
+																				<td style="width: 147.2px;">6</td>
+																			 </tr>
+																			 
+																		  </tbody>
+																	   </table>
+																	   <div class="embed-wrapper">
+																		  <div id="sibspPieChart" style="height: 12rem;" ></div>
+																	   </div>
+																	
+																 
+																
+																<div class="embed-wrapper">
+																   <div id="sibsptarget_distribution" style="height: 18rem;"></div>																  
+																</div>
+																
+																<div class="card">
+																   <div class="card-header">
+																	  <h3 class="card-title">Null Percentage in Target (Top 10 Categories)</h3>
+																   </div>
+																   <div class="table-responsive">
+																	  <table class="table card-table table-striped table-vcenter">
+																		 <thead>
+																			<tr>
+																			   <th colspan="2">Category</th>
+																			   <th>Null Percentage</th>
+																			</tr>
+																		 </thead>
+																		 <tbody>
+																			
+																		 </tbody>
+																	  </table>
+																   </div>
+																</div>
+																
+															</div>
+														</div>
+													</div>
+													
+													<div class="col-sm-4">
+														<div class="card">
+															<div class="card-header text-center">
+															   <h4> parch </h4>
+															</div>
+															<div class="card-body">
+															
+																
+																	
+																	   <!-- <div class="table-responsive"> -->
+																	   <table class="table table-striped">
+																		  <thead>
+																			 <tr>
+																				<th>Category (Top 30)</th>
+																				<th>Number of Records</th>
+																			 </tr>
+																		  </thead>
+																		  <tbody>
+																			 
+																			 <tr>
+																				<td style="width: 146.4px;">0</td>
+																				<td style="width: 147.2px;">1002</td>
+																			 </tr>
+																			 
+																			 <tr>
+																				<td style="width: 146.4px;">1</td>
+																				<td style="width: 147.2px;">170</td>
+																			 </tr>
+																			 
+																			 <tr>
+																				<td style="width: 146.4px;">2</td>
+																				<td style="width: 147.2px;">113</td>
+																			 </tr>
+																			 
+																			 <tr>
+																				<td style="width: 146.4px;">3</td>
+																				<td style="width: 147.2px;">8</td>
+																			 </tr>
+																			 
+																			 <tr>
+																				<td style="width: 146.4px;">4</td>
+																				<td style="width: 147.2px;">6</td>
+																			 </tr>
+																			 
+																			 <tr>
+																				<td style="width: 146.4px;">5</td>
+																				<td style="width: 147.2px;">6</td>
+																			 </tr>
+																			 
+																			 <tr>
+																				<td style="width: 146.4px;">6</td>
+																				<td style="width: 147.2px;">2</td>
+																			 </tr>
+																			 
+																			 <tr>
+																				<td style="width: 146.4px;">9</td>
+																				<td style="width: 147.2px;">2</td>
+																			 </tr>
+																			 
+																		  </tbody>
+																	   </table>
+																	   <div class="embed-wrapper">
+																		  <div id="parchPieChart" style="height: 12rem;" ></div>
+																	   </div>
+																	
+																 
+																
+																<div class="embed-wrapper">
+																   <div id="parchtarget_distribution" style="height: 18rem;"></div>																  
+																</div>
+																
+																<div class="card">
+																   <div class="card-header">
+																	  <h3 class="card-title">Null Percentage in Target (Top 10 Categories)</h3>
+																   </div>
+																   <div class="table-responsive">
+																	  <table class="table card-table table-striped table-vcenter">
+																		 <thead>
+																			<tr>
+																			   <th colspan="2">Category</th>
+																			   <th>Null Percentage</th>
+																			</tr>
+																		 </thead>
+																		 <tbody>
+																			
+																		 </tbody>
+																	  </table>
+																   </div>
+																</div>
+																
+															</div>
+														</div>
+													</div>
+													
+													<div class="col-sm-4">
+														<div class="card">
+															<div class="card-header text-center">
+															   <h4> pclass </h4>
+															</div>
+															<div class="card-body">
+															
+																
+																	
+																	   <!-- <div class="table-responsive"> -->
+																	   <table class="table table-striped">
+																		  <thead>
+																			 <tr>
+																				<th>Category (Top 30)</th>
+																				<th>Number of Records</th>
+																			 </tr>
+																		  </thead>
+																		  <tbody>
+																			 
+																			 <tr>
+																				<td style="width: 146.4px;">3</td>
+																				<td style="width: 147.2px;">709</td>
+																			 </tr>
+																			 
+																			 <tr>
+																				<td style="width: 146.4px;">1</td>
+																				<td style="width: 147.2px;">323</td>
+																			 </tr>
+																			 
+																			 <tr>
+																				<td style="width: 146.4px;">2</td>
+																				<td style="width: 147.2px;">277</td>
+																			 </tr>
+																			 
+																		  </tbody>
+																	   </table>
+																	   <div class="embed-wrapper">
+																		  <div id="pclassPieChart" style="height: 12rem;" ></div>
+																	   </div>
+																	
+																 
+																
+																<div class="embed-wrapper">
+																   <div id="pclasstarget_distribution" style="height: 18rem;"></div>																  
+																</div>
+																
+																<div class="card">
+																   <div class="card-header">
+																	  <h3 class="card-title">Null Percentage in Target (Top 10 Categories)</h3>
+																   </div>
+																   <div class="table-responsive">
+																	  <table class="table card-table table-striped table-vcenter">
+																		 <thead>
+																			<tr>
+																			   <th colspan="2">Category</th>
+																			   <th>Null Percentage</th>
+																			</tr>
+																		 </thead>
+																		 <tbody>
+																			
+																		 </tbody>
+																	  </table>
+																   </div>
+																</div>
+																
+															</div>
+														</div>
+													</div>
+													
+												</div>
+											</div>
+										</div>
+									</div>
+								 </div>
+								 
+								 
+							</div>
+						</div>
+					 </div>
+					 
+					 
+					 <!-- Continuous Vs Target -->
+					  <div class="row">
+						<div class="col-xl-12">
+							<div class="card">							
+							   <div class="card-header">
+								  <h3 class="card-title">
+									 <div class="h3">Continuous Vs Target</div>
+								  </h3>
+								  <div class="card-options">
+									 <a href="#" class="card-options-collapse" data-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>
+								  </div>
+								</div>
+								
+								  <div class="row">
+									<div class="col-sm-6">
+										<div class="card">
+											<div class="card-header text-center">
+												 <div class="h4">Dependent Continuous Variables - Based on ANOVA
+													<p> <p>
+													<button onclick="exportTableToCSV('ChiSquareDependent')">CSV</button>
+												  </div>											   
+											</div>
+											
+											<div class="card-body">
+											   <table class="table table-striped" id="ChiSquareDependent">
+												  <thead>
+													 <tr>
+														<th>Feature</th>
+														<th>PValue</th>
+													 </tr>
+												  </thead>
+												  <tbody>
+													 
+													 <tr>
+														<td style="width: 147.2px;">fare</td>
+														<td style="width: 147.2px;">0.0</td>
+													 </tr>
+													 
+												  </tbody>
+											   </table>
+											</div>
+										</div>
+								  </div>
+							   </div>
+							   
+							   <!-- Target Distribution for Continuous Variables -->
+							   <div class="row">
+									<div class="col-sm-12">
+										<div class="card">
+											<div class="card-header text-center">
+												 <div class="h4">Distribution of Continuous Variables for Target Categories 											
+												  </div>											   
+											</div>
+											<div class="card-body">													
+												<div class="row">
+													
+													<div class="col-sm-4">
+														<div class="card">
+															<div class="card-header text-center">
+															   <h4> body </h4>
+															</div>
+															<div class="card-body">
+																<table class="table table-striped">
+																	<thead>
+																		<tr>
+																		  <th>Statistic</th>
+																		  <th>Value</th>
+																		</tr>
+																	  </thead>
+																	  <tbody>
+																		<tr>
+																		 <td style="width: 146.4px;">Count</td>
+																		 <td style="width: 147.2px;">121.0</td>
+																		</tr>
+																		<tr>
+																		 <td style="width: 146.4px;">Mean</td>
+																		 <td style="width: 147.2px;">160.81</td>
+																		</tr>
+																		<tr>
+																		 <td style="width: 146.4px;">Median</td>
+																		 <td style="width: 147.2px;">155.0</td>
+																		</tr>
+																		<tr>
+																		 <td style="width: 146.4px;">Std Dev</td>
+																		 <td style="width: 147.2px;">97.7</td>
+																		</tr><tr>
+																		 <td style="width: 146.4px;">Min</td>
+																		 <td style="width: 147.2px;">1.0</td>
+																		</tr><tr>
+																		 <td style="width: 146.4px;">25%</td>
+																		 <td style="width: 147.2px;">72.0</td>
+																		</tr><tr>
+																		 <td style="width: 146.4px;">50%</td>
+																		 <td style="width: 147.2px;">155.0</td>
+																		</tr><tr>
+																		 <td style="width: 146.4px;">75%</td>
+																		 <td style="width: 147.2px;">256.0</td>
+																		</tr><tr>
+																		 <td style="width: 146.4px;">Max</td>
+																		 <td style="width: 147.2px;">328.0</td>
+																		</tr><tr>
+																		 <td style="width: 146.4px;">Variance</td>
+																		 <td style="width: 147.2px;">9465.8068</td>
+																		</tr><tr>
+																		 <td style="width: 146.4px;">Kurtosis</td>
+																		 <td style="width: 147.2px;">nan</td>
+																		</tr><tr>
+																		 <td style="width: 146.4px;">skew</td>
+																		 <td style="width: 147.2px;">nan</td>
+																		</tr>
+																	  </tbody>
+															   </table>
+															   <div class = "row">									   
+																   <img src=C:\Users\tomfe\anaconda3\lib\site-packages\ExploriPy\HTMLTemplate/dist/output/body.png class="body" alt="" height="100%" width="100%"> </img>
+																</div>
+																<div class="row">
+																	<div class="embed-wrapper">
+																	   <div id="bodycontinuous_distribution" style="height: 18rem;"></div>																  
+																	</div>
+																</div>
+																<div class="row">
+																	<div class="embed-wrapper">
+																	   <div id="bodycontinuous_actual_distribution" style="height: 18rem;"></div>																  
+																	</div>
+																</div>
+																
+															   <div class="row">																
+																<h4> <c> Categories with Similar Distributions </c> </h4>
+																
+																</div>
+																
+																<div class="row">
+																	<div class="embed-wrapper">
+																	   <div id="bodycontinuous_target_distribution" style="height: 18rem;"></div>																  
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+													
+													<div class="col-sm-4">
+														<div class="card">
+															<div class="card-header text-center">
+															   <h4> fare </h4>
+															</div>
+															<div class="card-body">
+																<table class="table table-striped">
+																	<thead>
+																		<tr>
+																		  <th>Statistic</th>
+																		  <th>Value</th>
+																		</tr>
+																	  </thead>
+																	  <tbody>
+																		<tr>
+																		 <td style="width: 146.4px;">Count</td>
+																		 <td style="width: 147.2px;">1308.0</td>
+																		</tr>
+																		<tr>
+																		 <td style="width: 146.4px;">Mean</td>
+																		 <td style="width: 147.2px;">33.3</td>
+																		</tr>
+																		<tr>
+																		 <td style="width: 146.4px;">Median</td>
+																		 <td style="width: 147.2px;">14.45</td>
+																		</tr>
+																		<tr>
+																		 <td style="width: 146.4px;">Std Dev</td>
+																		 <td style="width: 147.2px;">51.76</td>
+																		</tr><tr>
+																		 <td style="width: 146.4px;">Min</td>
+																		 <td style="width: 147.2px;">0.0</td>
+																		</tr><tr>
+																		 <td style="width: 146.4px;">25%</td>
+																		 <td style="width: 147.2px;">7.9</td>
+																		</tr><tr>
+																		 <td style="width: 146.4px;">50%</td>
+																		 <td style="width: 147.2px;">14.45</td>
+																		</tr><tr>
+																		 <td style="width: 146.4px;">75%</td>
+																		 <td style="width: 147.2px;">31.27</td>
+																		</tr><tr>
+																		 <td style="width: 146.4px;">Max</td>
+																		 <td style="width: 147.2px;">512.33</td>
+																		</tr><tr>
+																		 <td style="width: 146.4px;">Variance</td>
+																		 <td style="width: 147.2px;">2676.9116</td>
+																		</tr><tr>
+																		 <td style="width: 146.4px;">Kurtosis</td>
+																		 <td style="width: 147.2px;">nan</td>
+																		</tr><tr>
+																		 <td style="width: 146.4px;">skew</td>
+																		 <td style="width: 147.2px;">nan</td>
+																		</tr>
+																	  </tbody>
+															   </table>
+															   <div class = "row">									   
+																   <img src=C:\Users\tomfe\anaconda3\lib\site-packages\ExploriPy\HTMLTemplate/dist/output/fare.png class="fare" alt="" height="100%" width="100%"> </img>
+																</div>
+																<div class="row">
+																	<div class="embed-wrapper">
+																	   <div id="farecontinuous_distribution" style="height: 18rem;"></div>																  
+																	</div>
+																</div>
+																<div class="row">
+																	<div class="embed-wrapper">
+																	   <div id="farecontinuous_actual_distribution" style="height: 18rem;"></div>																  
+																	</div>
+																</div>
+																
+															   <div class="row">																
+																<h4> <c> Categories with Similar Distributions </c> </h4>
+																
+																</div>
+																
+																<div class="row">
+																	<div class="embed-wrapper">
+																	   <div id="farecontinuous_target_distribution" style="height: 18rem;"></div>																  
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+													
+													<div class="col-sm-4">
+														<div class="card">
+															<div class="card-header text-center">
+															   <h4> age </h4>
+															</div>
+															<div class="card-body">
+																<table class="table table-striped">
+																	<thead>
+																		<tr>
+																		  <th>Statistic</th>
+																		  <th>Value</th>
+																		</tr>
+																	  </thead>
+																	  <tbody>
+																		<tr>
+																		 <td style="width: 146.4px;">Count</td>
+																		 <td style="width: 147.2px;">1046.0</td>
+																		</tr>
+																		<tr>
+																		 <td style="width: 146.4px;">Mean</td>
+																		 <td style="width: 147.2px;">29.88</td>
+																		</tr>
+																		<tr>
+																		 <td style="width: 146.4px;">Median</td>
+																		 <td style="width: 147.2px;">28.0</td>
+																		</tr>
+																		<tr>
+																		 <td style="width: 146.4px;">Std Dev</td>
+																		 <td style="width: 147.2px;">14.41</td>
+																		</tr><tr>
+																		 <td style="width: 146.4px;">Min</td>
+																		 <td style="width: 147.2px;">0.17</td>
+																		</tr><tr>
+																		 <td style="width: 146.4px;">25%</td>
+																		 <td style="width: 147.2px;">21.0</td>
+																		</tr><tr>
+																		 <td style="width: 146.4px;">50%</td>
+																		 <td style="width: 147.2px;">28.0</td>
+																		</tr><tr>
+																		 <td style="width: 146.4px;">75%</td>
+																		 <td style="width: 147.2px;">39.0</td>
+																		</tr><tr>
+																		 <td style="width: 146.4px;">Max</td>
+																		 <td style="width: 147.2px;">80.0</td>
+																		</tr><tr>
+																		 <td style="width: 146.4px;">Variance</td>
+																		 <td style="width: 147.2px;">207.5504</td>
+																		</tr><tr>
+																		 <td style="width: 146.4px;">Kurtosis</td>
+																		 <td style="width: 147.2px;">nan</td>
+																		</tr><tr>
+																		 <td style="width: 146.4px;">skew</td>
+																		 <td style="width: 147.2px;">nan</td>
+																		</tr>
+																	  </tbody>
+															   </table>
+															   <div class = "row">									   
+																   <img src=C:\Users\tomfe\anaconda3\lib\site-packages\ExploriPy\HTMLTemplate/dist/output/age.png class="age" alt="" height="100%" width="100%"> </img>
+																</div>
+																<div class="row">
+																	<div class="embed-wrapper">
+																	   <div id="agecontinuous_distribution" style="height: 18rem;"></div>																  
+																	</div>
+																</div>
+																<div class="row">
+																	<div class="embed-wrapper">
+																	   <div id="agecontinuous_actual_distribution" style="height: 18rem;"></div>																  
+																	</div>
+																</div>
+																
+															   <div class="row">																
+																<h4> <c> Categories with Similar Distributions </c> </h4>
+																
+																</div>
+																
+																<div class="row">
+																	<div class="embed-wrapper">
+																	   <div id="agecontinuous_target_distribution" style="height: 18rem;"></div>																  
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+													
+												</div>												
+											</div>
+										</div>
+									</div>
+								</div>
+								  
+								  
+							   
+							</div>
+						</div>
+					</div>
+					
+					
+					
+					<!-- Continuous Vs Continuous -->
+					<div class="row">
+						<div class="col-xl-12">
+							<div class="card">							
+							   <div class="card-header">
+								  <h3 class="card-title">
+									 <div class="h3">Continuous Vs Continuous</div>
+								  </h3>
+								  <div class="card-options">
+									 <a href="#" class="card-options-collapse" data-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>
+								  </div>
+								</div>
+								<div class='card-body'>
+									<div class="card">
+									   <div class="card-header">
+										  <h3 class="card-title">Correlation Heatmap</h3>
+									   </div>
+									   <div class="card-body text-center">
+											<div class = "row align-items-center"">
+												<div id="CorrChart"><!-- Plotly chart will be drawn inside this DIV --></div>
+												<script>
+													  var colorscaleValue = [
+														  [1, '#FEFF49'],
+														  [0.8, '#D9FF5B'],
+														  [0.4, '#CFFFCD'],
+														  [0.0, '#CDE9FF'],
+														  [-0.4, '#7C7EFF'],
+														  [-0.8, '#815BFF'],
+														  [-1, '#A54BFF']
+														];
+														var data = [
+													  {
+														z: [
+															
+															[1.0,0,0],
+															
+															[0,1.0,0],
+															
+															[0,0,1.0],
+															
+															],
+														x: ['body','fare','age'],
+														y: ['body','fare','age'],
+														type: 'heatmap',
+														colorscale: 'Viridis'
+														
+													  }
+													];
+
+													Plotly.newPlot('CorrChart', data);
+											  </script>
+											</div>
+									   </div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+						
+					 
+            </div>
+         </div>
+         <div class="footer">
+            <div class="container">
+               <div class="row">
+                  <div class="col-lg-8">
+                     <div class="row">
+                        <div class="col-6 col-md-3">
+                        </div>
+                        <div class="col-6 col-md-3">
+                        </div>
+                        <div class="col-6 col-md-3">
+                        </div>
+                        <div class="col-6 col-md-3">
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-lg-4 mt-4 mt-lg-0">
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </body>
+</html>
